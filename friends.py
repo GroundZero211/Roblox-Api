@@ -22,7 +22,7 @@ if __name__ == '__main__':
     import json
     
     try:
-        prompt = input('Enter your user-id: ')
+        prompt = int(input('Enter your user-id: '))
         user = Friends(prompt)
         for i in user.getfriendlist():
             print(i)
