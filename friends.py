@@ -1,15 +1,12 @@
 # Coder: Gil
 # Roblox Friend Api Online Checker
 
-import requests
-import json
-
 class Friends:
     def __init__(self, userid):
         self.userid = userid
     
     def getfriendlist(self):
-        response = requests.get('https://friends.roblox.com/v1/users/' + self.userid + '/friends?userSort=Alphabetical')
+        response = requests.get('https://friends.roblox.com/v1/users/' + str(self.userid) + '/friends?userSort=Alphabetical')
         json_data = json.loads(response.text)
         myfriends = json_data
         key = list(myfriends.keys())
@@ -21,7 +18,14 @@ class Friends:
         return list_ofriends
 
 if __name__ == '__main__':
-    prompt = input('Enter your user-id: ')
-    user = Friends(prompt)
-    for i in user.getfriendlist():
-        print(i)
+    import requests
+    import json
+    
+    try:
+        prompt = input('Enter your user-id: ')
+        user = Friends(prompt)
+        for i in user.getfriendlist():
+            print(i)
+    except ValueError:
+        print('Userid must be an Integer/number')
+        
