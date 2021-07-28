@@ -13,13 +13,8 @@ class Friends:
         json_data = json.loads(response.text)
         myfriends = json_data
         list_ofriends = []
-        for i in range(len(myfriends['data'])):
-            if myfriends['data'][i]['isOnline']:
-                list_ofriends.append(myfriends['data'][i]['name'] + " => " + "is Online")
-            else:
-                list_ofriends.append(myfriends['data'][i]['name'] + " => " + "is Offline")
-        else:
-            return list_ofriends
+        list_ofriends = [myfriends['data'][i]['name'] + " => " + "is Online" if myfriends['data'][i]['isOnline'] else myfriends['data'][i]['name'] + " => " + "is Offline" for i in range(len(myfriends['data']))]
+        return list_ofriends
 
 if __name__ == '__main__':
     prompt = input("Enter your Roblox user-id: ")
