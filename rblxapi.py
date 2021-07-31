@@ -1,12 +1,16 @@
 # Coder: Gil
 # Roblox Api online
+import os
+import requests
+import json
+import time
 
 class User():
     def __init__(self, userid):
         self.userid = userid
 
-    def userStatus(self):
-        response = requests.get('https://api.roblox.com/users/'+ str(self.userid) + '/onlinestatus/')
+    def onlineStatus(self):
+        response = requests.get(os.getenv('URL'))
         json_data = json.loads(response.text)
         usr = json_data
         t = (usr['VisitorId'], usr['IsOnline'], usr['LastLocation'], usr['LastOnline'], usr['LocationType'], usr['PresenceType'], usr['PlaceId'], usr['UniverseId'])
@@ -26,7 +30,7 @@ class Friends(User):
         super().__init__(userid)
     
     def getfriendlist(self):
-        response = requests.get('https://friends.roblox.com/v1/users/' + str(self.userid) + '/friends?userSort=Alphabetical')
+        response = requests.get(os.getenv('URL'))
         json_data = json.loads(response.text)
         myfriends = json_data
         key = list(myfriends.keys())
@@ -37,14 +41,13 @@ class Friends(User):
         list_ofriends = [myfriends['data'][i]['name'] + " => " + "is Online" if myfriends['data'][i]['isOnline'] else myfriends['data'][i]['name'] + " => " + "is Offline" for i in range(len(myfriends['data']))]
         return list_ofriends
 
-
 if __name__ == '__main__':
-    import requests
-    import json
+    prompt = int(input("Enter userId: "))
+    while True:
+        try:
+            user = User(prompt)
+            print(user.onlineStatus())
+            time.sleep(10)
+        except ValueError:
+            print('UserId must be an Integer/number')
 
-    try:
-        prompt = int(input('Enter your user-id: '))
-        user = Friends(prompt)
-        print(user.userStatus())
-    except ValueError:
-        print('Userid must be an Integer/number')
