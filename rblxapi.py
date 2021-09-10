@@ -1,9 +1,6 @@
 # Coder: Gil
 # Roblox Api online
-import os
-import requests
-import json
-import time
+import os, requests, json, time
 
 class User():
     def __init__(self, userid):
